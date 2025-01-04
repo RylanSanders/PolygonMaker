@@ -27,8 +27,8 @@ namespace PolygonMaker.Render
 
         public TranslateTransform Transform { get; set; }
 
-        public UIElement Parent { get; set; }
-        public PolygonRender(Shapes.Polygon model, UIElement parent)
+        public Grid Parent { get; set; }
+        public PolygonRender(Shapes.Polygon model, Grid parent)
         {
             InitializeComponent();
             Model = model;
@@ -219,6 +219,7 @@ namespace PolygonMaker.Render
 
         public void HandleKeyEvent(KeyEventArgs args)
         {
+            if (!isSelected) return;
             if(args.Key == Key.Delete)
             {
                 if (SelectedPoint != null)
@@ -226,6 +227,10 @@ namespace PolygonMaker.Render
                     Model.Points.Remove(SelectedPoint);
                     SelectedPoint = null;
                     InvalidateVisual();
+                }
+                else
+                {
+                    Parent.Children.Remove(this);
                 }
             }
         }
