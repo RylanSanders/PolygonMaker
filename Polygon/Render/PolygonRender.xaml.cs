@@ -1,7 +1,9 @@
 ﻿
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -10,7 +12,7 @@ namespace PolygonMaker.Render
     /// <summary>
     /// Interaction logic for PolygonRender.xaml
     /// </summary>
-    public partial class PolygonRender : UserControl
+    public partial class PolygonRender : UserControl, IKeyListener
     {
         public Shapes.Polygon Model { get; set; } 
         public bool isDragging = false;
@@ -20,7 +22,7 @@ namespace PolygonMaker.Render
 
         //TODO figure out a good way to deal with this so I don't need a seperate point thing
         public bool isDraggingPoint = false;
-        public Shapes.Point DraggedPoint;
+        public Shapes.Point? SelectedPoint;
         public Shapes.Point OriginalDraggedPoint;
 
         public TranslateTransform Transform { get; set; }
@@ -45,6 +47,7 @@ namespace PolygonMaker.Render
         {
             isDragging = false;
             isDraggingPoint = false;
+            InvalidateVisual();
         }
 
         private void PolygonRender_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -58,8 +61,8 @@ namespace PolygonMaker.Render
             else if (isDraggingPoint)
             {
                 //Subtract the Transform because we push that with the render so the real point value shouldn't take it into effect
-                DraggedPoint.X = e.GetPosition(Parent).X - Transform.X;
-                DraggedPoint.Y = e.GetPosition(Parent).Y - Transform.Y;
+                SelectedPoint.X = e.GetPosition(Parent).X - Transform.X;
+                SelectedPoint.Y = e.GetPosition(Parent).Y - Transform.Y;
                 InvalidateVisual();
             }
         }
@@ -83,8 +86,8 @@ namespace PolygonMaker.Render
                 if (closePoint != null)
                 {
                     isDraggingPoint = true;
-                    DraggedPoint = closePoint;
-                    OriginalDraggedPoint = DraggedPoint.Translate(Transform).Clone();
+                    SelectedPoint = closePoint;
+                    OriginalDraggedPoint = SelectedPoint.Translate(Transform).Clone();
                     return;
                 }
             }
@@ -121,7 +124,7 @@ namespace PolygonMaker.Render
                 }
             }
             isSelected = true;
-
+            SelectedPoint = null;
             
             InvalidateVisual();
         }
@@ -147,7 +150,7 @@ namespace PolygonMaker.Render
             }
             return null;
         }
-        //TODO get this in a Util class
+        //TODO get this in a Util class - and use the points instead of doubles
         private double GetDist(double ax, double ay, double bx,
                              double by, double x, double y)
         {
@@ -192,17 +195,39 @@ namespace PolygonMaker.Render
 
             if (isSelected)
             {
-                var pointPen = new Pen
-                {
-                    Thickness = 2,
-                    Brush = Brushes.Blue
-                };
+                
                 //TOOD make this a combined geometry with the streamGeometryContext for the path
-                Model.Points.Select(p => p.ToWindows()).ToList().ForEach(p=>drawingContext.DrawEllipse(Brushes.Blue, pointPen, p, PointRadius, PointRadius));
+                Model.Points.Select(p => p.ToWindows()).ToList().ForEach(p=>DrawPoint(drawingContext, p));
             }
         }
 
+        private void DrawPoint(DrawingContext dc, Point p)
+        {
+            var pointPen = new Pen
+            {
+                Thickness = 2,
+                Brush = Brushes.Blue
+            };
+            Brush fillPoint = Brushes.Blue;
+            if(SelectedPoint != null && SelectedPoint.ToWindows() == p)
+            {
+                fillPoint = Brushes.Green;
+                pointPen.Brush = Brushes.Green;
+            }
+            dc.DrawEllipse(fillPoint, pointPen, p, PointRadius, PointRadius);
+        }
 
-
+        public void HandleKeyEvent(KeyEventArgs args)
+        {
+            if(args.Key == Key.Delete)
+            {
+                if (SelectedPoint != null)
+                {
+                    Model.Points.Remove(SelectedPoint);
+                    SelectedPoint = null;
+                    InvalidateVisual();
+                }
+            }
+        }
     }
 }

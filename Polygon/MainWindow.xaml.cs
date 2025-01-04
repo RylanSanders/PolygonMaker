@@ -32,6 +32,13 @@ namespace PolygonMaker
             p2.Points.Add(new Shapes.Point() { X = 50, Y = 50 });
             p2.Points.Add(new Shapes.Point() { X = 200, Y = 30 });
             MainGrid.Children.Add(new PolygonRender(p2, MainGrid));
+
+            KeyDown += MainWindow_KeyDown;
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            MainGrid.Children.OfType<IKeyListener>().ToList().ForEach(c=>c.HandleKeyEvent(e));
         }
     }
 }
