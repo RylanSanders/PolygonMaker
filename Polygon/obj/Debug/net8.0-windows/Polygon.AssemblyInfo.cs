@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Polygon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+81f6e4d13c70ce0d6807d02db0715cf8463f6a95")]
 [assembly: System.Reflection.AssemblyProductAttribute("Polygon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Polygon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

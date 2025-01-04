@@ -107,8 +107,58 @@ namespace PolygonMaker.Render
 
         private void PolygonRender_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            //Add Point Behavior
+            if (isSelected)
+            {
+                var pointInRelationToPolygon = e.GetPosition(Parent);
+                pointInRelationToPolygon.X -= Transform.X;
+                pointInRelationToPolygon.Y -= Transform.Y;
+                var closePoint = GetClosePoint(pointInRelationToPolygon);
+                if (closePoint != null)
+                {
+                   int pos = Model.Points.IndexOf(closePoint);
+                    Model.Points.Insert(pos+1, new Shapes.Point(pointInRelationToPolygon));
+                }
+            }
             isSelected = true;
+
+            
             InvalidateVisual();
+        }
+
+        double MIN_POINT_TO_LINE_DIST = 5;
+        private Shapes.Point GetClosePoint(Point p)
+        {
+            for(int i = 1; i < Model.Points.Count; i++)
+            {
+                Shapes.Point p1 = Model.Points[i-1];
+                Shapes.Point p2 = Model.Points[i];
+                if (GetDist(p1.X, p1.Y, p2.X, p2.Y, p.X, p.Y)< MIN_POINT_TO_LINE_DIST)
+                {
+                    return p1;
+                }
+            }
+            //Handle line between the last point and the first index
+            var lastPoint = Model.Points.Last();
+            var firstPoint = Model.Points.First();
+            if (GetDist(lastPoint.X, lastPoint.Y, firstPoint.X, firstPoint.Y, p.X, p.Y) < MIN_POINT_TO_LINE_DIST)
+            {
+                return lastPoint;
+            }
+            return null;
+        }
+        //TODO get this in a Util class
+        private double GetDist(double ax, double ay, double bx,
+                             double by, double x, double y)
+        {
+            if ((ax - bx) * (x - bx) + (ay - by) * (y - by) <= 0)
+                return Math.Sqrt((x - bx) * (x - bx) + (y - by) * (y - by));
+
+            if ((bx - ax) * (x - ax) + (by - ay) * (y - ay) <= 0)
+                return Math.Sqrt((x - ax) * (x - ax) + (y - ay) * (y - ay));
+
+            return Math.Abs((by - ay) * x - (bx - ax) * y + bx * ay - by * ax) /
+                Math.Sqrt((ay - by) * (ay - by) + (ax - bx) * (ax - bx));
         }
 
         //TODO could make this more efficient by only calling this when the model is updated
@@ -126,6 +176,7 @@ namespace PolygonMaker.Render
              {
                 drawingContext.PushTransform(Transform);
             }
+            var combinedGeometry = new CombinedGeometry();
             var geometry = new StreamGeometry();
             using (StreamGeometryContext ctx = geometry.Open())
             {

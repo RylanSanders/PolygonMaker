@@ -17,6 +17,10 @@ namespace PolygonMaker.Shapes
             return new System.Windows.Point(X, Y);
         }
 
+        public Point() { }
+
+        public Point(System.Windows.Point p) { X = p.X; Y = p.Y; }
+
         public double DistTo(Point p)
         {
             return CalculateDistance(ToWindows(), p.ToWindows());

@@ -27,6 +27,11 @@ namespace PolygonMaker
             p.Points.Add(new Shapes.Point() { X = 200, Y = 30 });
             MainGrid.Children.Add(new PolygonRender(p, MainGrid));
 
+            Shapes.Polygon p2 = new Shapes.Polygon();
+            p2.Points.Add(new Shapes.Point() { X = 1, Y = 1 });
+            p2.Points.Add(new Shapes.Point() { X = 50, Y = 50 });
+            p2.Points.Add(new Shapes.Point() { X = 200, Y = 30 });
+            MainGrid.Children.Add(new PolygonRender(p2, MainGrid));
         }
     }
 }
