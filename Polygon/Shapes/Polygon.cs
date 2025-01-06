@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PolygonMaker.Shapes
 {
+    //TODO figure out if I actually want this for now I'm going to use a DO
     public class Polygon
     {
         public ObservableCollection<Point> Points;

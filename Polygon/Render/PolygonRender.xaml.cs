@@ -1,5 +1,6 @@
 ﻿
 using PolygonMaker.Notification;
+using PolygonMaker.Serialization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -247,5 +248,11 @@ namespace PolygonMaker.Render
                 }
             }
         }
+
+        public PolygonDO ToDataObject()
+        {
+            return new PolygonDO() {Points = Model.Points.Select(p=>p.ToWindows()).ToList(), FillBrush=FillBrush, LineBrush=LineBrush, LineThickness = LineThickness, ZIndex = ZIndex, TranslateTransformX=Transform.X, TranslateTransformY=Transform.Y };
+        }
+
     }
 }

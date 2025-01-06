@@ -1,6 +1,8 @@
-﻿using PolygonMaker.Controls;
+﻿using Microsoft.Win32;
+using PolygonMaker.Controls;
 using PolygonMaker.Notification;
 using PolygonMaker.Render;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -74,6 +76,36 @@ namespace PolygonMaker
         {
             scaleTransform.ScaleX += e.Delta * WHEEL_ZOOM_SCALE;
             scaleTransform.ScaleY += e.Delta * WHEEL_ZOOM_SCALE;
+        }
+
+        public string CurrentFilePath = string.Empty;
+
+        private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentFilePath == string.Empty)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog
+                {
+                    Filter = "Text Files (*.json)|*.json|All Files (*.*)|*.*",
+                    DefaultExt = ".txt",
+                    FileName = "polygons.json",
+                    Title = "Save As"
+                };
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    CurrentFilePath  = saveFileDialog.FileName;
+                }
+            }
+            
+            if(CurrentFilePath != string.Empty)
+            {
+                Newtonsoft.Json.JsonSerializer jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+                StringWriter outputStr = new StringWriter();
+                jsonSerializer.Serialize(outputStr, MainGrid.Children.OfType<PolygonRender>().Select(p => p.ToDataObject()));
+                File.WriteAllText(CurrentFilePath, outputStr.ToString());
+                outputStr.Close();
+            }
+
         }
     }
 }
