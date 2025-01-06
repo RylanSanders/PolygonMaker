@@ -7,6 +7,12 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Controls\FramesPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\SelectedPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Render\PolygonRender.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

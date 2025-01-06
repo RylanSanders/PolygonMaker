@@ -65,3 +65,8 @@ C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-
 C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\Polygon.pdb
 C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\Polygon.genruntimeconfig.cache
 C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\ref\Polygon.dll
+C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\Controls\SelectedPanel.g.cs
+C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\Controls\SelectedPanel.baml
+C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\Controls\FramesPanel.g.cs
+C:\Users\sande\OneDrive\Desktop\code\.Net\PolygonMaker\Polygon\obj\Debug\net8.0-windows\Controls\FramesPanel.baml

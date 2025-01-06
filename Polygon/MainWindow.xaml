@@ -4,18 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PolygonMaker"
+        xmlns:controls="clr-namespace:PolygonMaker.Controls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"/>
             <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="200"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="CanvasViewerGrid" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Grid x:Name="MainToolBarGrid" Grid.ColumnSpan="3" Background="Aquamarine">
+            <ToolBarTray>
+                <ToolBar Name="MainToolBar">
+                    <Menu>
+                        <MenuItem Header="File">
+                            <MenuItem Header="Open"/>
+                            <MenuItem Header="Save"/>
+                            <MenuItem Header="Save As"/>
+                        </MenuItem>
+                    </Menu>
+                </ToolBar>
+            </ToolBarTray>
+        </Grid>
+        <Grid x:Name="PaintToolBarGrid" Grid.ColumnSpan="3" Grid.Row="1" Background="Red">
+            <ToolBarTray>
+                <ToolBar>
+                    
+                </ToolBar>
+            </ToolBarTray>
+        </Grid>
+        <Grid x:Name="ToolOptionsGrid" Grid.Row="2" Background="Bisque">
+            
+        </Grid>
+        <Grid x:Name="CanvasViewerGrid" Grid.Row="2" Grid.Column="1" Panel.ZIndex="-1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="20"/>
@@ -26,10 +53,17 @@
             </Grid.RowDefinitions>
             <Grid x:Name="MainGrid" Background="Gray" Grid.Column="0" Grid.Row="0" Height="600" Width="800" >
             </Grid>
-            <ScrollBar x:Name="HorizontalScrollBar" VerticalAlignment="Stretch" Orientation="Horizontal" Grid.Row="1"/>
+            <ScrollBar x:Name="HorizontalScrollBar" VerticalAlignment="Stretch" Orientation="Horizontal" Grid.Row="1" />
             <ScrollBar x:Name="VerticalScrollBar" VerticalAlignment="Stretch" Orientation="Vertical" Grid.Column="1"/>
         </Grid>
-        
+        <Grid x:Name="OtherOptionsGrid" Grid.Row="2" Grid.Column="2" Background="LightPink">
+            <controls:SelectedPanel>
+                
+            </controls:SelectedPanel>
+        </Grid>
+        <Grid x:Name="FramesGrid" Grid.ColumnSpan="3" Grid.Row="3" Background="Green">
+            <controls:FramesPanel/>
+        </Grid>
     </Grid>
 
 </Window>
