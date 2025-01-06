@@ -7,6 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="AliceBlue">
-            
+        <DataGrid x:Name="PolygonPropertiesDataGrid" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Property" Binding="{Binding Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" IsReadOnly="False"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

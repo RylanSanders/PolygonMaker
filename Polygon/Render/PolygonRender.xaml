@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PolygonMaker.Render"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid x:Name="PolygonGrid">
             
     </Grid>
 </UserControl>

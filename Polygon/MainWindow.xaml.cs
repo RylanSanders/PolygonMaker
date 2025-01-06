@@ -1,4 +1,6 @@
-﻿using PolygonMaker.Render;
+﻿using PolygonMaker.Controls;
+using PolygonMaker.Notification;
+using PolygonMaker.Render;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,6 +51,8 @@ namespace PolygonMaker
 
             HorizontalScrollBar.Scroll += HorizontalScrollBar_Scroll;
             VerticalScrollBar.Scroll += VerticalScrollBar_Scroll;
+
+            NotificationHandler.RegisterListener(SelectedPolygonPanel);
         }
 
         private void VerticalScrollBar_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)

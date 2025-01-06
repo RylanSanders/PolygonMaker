@@ -11,7 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -57,7 +57,7 @@
             <ScrollBar x:Name="VerticalScrollBar" VerticalAlignment="Stretch" Orientation="Vertical" Grid.Column="1"/>
         </Grid>
         <Grid x:Name="OtherOptionsGrid" Grid.Row="2" Grid.Column="2" Background="LightPink">
-            <controls:SelectedPanel>
+            <controls:SelectedPanel x:Name="SelectedPolygonPanel">
                 
             </controls:SelectedPanel>
         </Grid>

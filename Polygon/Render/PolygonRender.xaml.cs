@@ -1,4 +1,5 @@
 ﻿
+using PolygonMaker.Notification;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -41,7 +42,19 @@ namespace PolygonMaker.Render
             Parent.MouseDown += Parent_MouseDown;
             Parent.MouseUp += PolygonRender_MouseUp;
             Transform = new TranslateTransform();
+           
         }
+
+        private int _zIndex;
+        public int ZIndex { get { return _zIndex; } set { _zIndex = value;Grid.SetZIndex(this, value); } }
+
+        private Brush _fillBrush = Brushes.Red;
+        public Brush FillBrush { get { return _fillBrush; } set { _fillBrush = value;InvalidateVisual(); } }
+        private Brush _lineBrush = Brushes.Black;
+        public Brush LineBrush { get { return _lineBrush; } set { _lineBrush = value; InvalidateVisual(); } }
+
+        private int _lineThickness = 5;
+        public int LineThickness { get { return _lineThickness; } set { _lineThickness = value; InvalidateVisual(); } }
 
         private void PolygonRender_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -119,13 +132,14 @@ namespace PolygonMaker.Render
                 var closePoint = GetClosePoint(pointInRelationToPolygon);
                 if (closePoint != null)
                 {
-                   int pos = Model.Points.IndexOf(closePoint);
-                    Model.Points.Insert(pos+1, new Shapes.Point(pointInRelationToPolygon));
+                    int pos = Model.Points.IndexOf(closePoint);
+                    Model.Points.Insert(pos + 1, new Shapes.Point(pointInRelationToPolygon));
                 }
             }
             isSelected = true;
             SelectedPoint = null;
-            
+            NotificationHandler.EmitEvent(new PolygonSelectedEvent() { SelectedPolygon = this });
+
             InvalidateVisual();
         }
 
@@ -164,14 +178,13 @@ namespace PolygonMaker.Render
                 Math.Sqrt((ay - by) * (ay - by) + (ax - bx) * (ax - bx));
         }
 
-        //TODO could make this more efficient by only calling this when the model is updated
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
             var myPen = new Pen
             {
-                Thickness = 2,
-                Brush = Brushes.Black
+                Thickness = LineThickness,
+                Brush = LineBrush
             };
             myPen.Freeze();
 
@@ -191,7 +204,7 @@ namespace PolygonMaker.Render
             }
             geometry.Freeze();
 
-            drawingContext.DrawGeometry(Brushes.Red, myPen, geometry);
+            drawingContext.DrawGeometry(FillBrush, myPen, geometry);
 
             if (isSelected)
             {
