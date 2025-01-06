@@ -24,7 +24,7 @@
                 <ToolBar Name="MainToolBar">
                     <Menu>
                         <MenuItem Header="File">
-                            <MenuItem Header="Open"/>
+                            <MenuItem x:Name="OpenMenuItem" Header="Open" Click="OpenMenuItem_Click"/>
                             <MenuItem x:Name="SaveMenuItem" Header="Save" Click="SaveMenuItem_Click"/>
                             <MenuItem Header="Save As"/>
                         </MenuItem>

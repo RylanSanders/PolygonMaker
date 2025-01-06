@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using PolygonMaker.Controls;
 using PolygonMaker.Notification;
 using PolygonMaker.Render;
+using PolygonMaker.Serialization;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -106,6 +108,27 @@ namespace PolygonMaker
                 outputStr.Close();
             }
 
+        }
+
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Text Files (*.json)|*.json|All Files (*.*)|*.*",
+                Title = "Open File"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                MainGrid.Children.Clear();
+
+                List<PolygonDO> polys = JsonConvert.DeserializeObject<List<PolygonDO>>(File.ReadAllText(openFileDialog.FileName));
+                polys.ForEach(p => MainGrid.Children.Add(new PolygonRender(p, MainGrid)));
+
+                CurrentFilePath = openFileDialog.FileName;
+            }
+
+                
         }
     }
 }

@@ -1,12 +1,14 @@
 ﻿
 using PolygonMaker.Notification;
 using PolygonMaker.Serialization;
+using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace PolygonMaker.Render
@@ -44,6 +46,29 @@ namespace PolygonMaker.Render
             Parent.MouseUp += PolygonRender_MouseUp;
             Transform = new TranslateTransform();
            
+        }
+
+        public PolygonRender(PolygonDO polyDO, Grid parent )
+        {
+            InitializeComponent();
+            Model = new Shapes.Polygon() { Points = new ObservableCollection<Shapes.Point>(polyDO.Points.Select(p => new Shapes.Point(p)).ToList()) };
+
+            Parent = parent;
+            MouseDown += PolygonRender_MouseDown;
+            MouseUp += PolygonRender_MouseUp;
+            MouseDoubleClick += PolygonRender_MouseDoubleClick;
+            PreviewMouseMove += PolygonRender_MouseMove;
+            Parent.PreviewMouseMove += PolygonRender_MouseMove;
+            Parent.MouseDown += Parent_MouseDown;
+            Parent.MouseUp += PolygonRender_MouseUp;
+            Transform = new TranslateTransform();
+
+            ZIndex = polyDO.ZIndex;
+            FillBrush = polyDO.FillBrush;
+            LineBrush = polyDO.LineBrush;
+            LineThickness = polyDO.LineThickness;
+            Transform.X = polyDO.TranslateTransformX;
+            Transform.Y = polyDO.TranslateTransformY;
         }
 
         private int _zIndex;
